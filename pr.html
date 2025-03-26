@@ -1,0 +1,186 @@
+<!DOCTYPE html> 
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ff0080, #fa7dc4);
+            color: #fff;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 253, 250, 0.95);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            color: #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 400px;
+            padding-bottom: 80px; /* Memberi ruang agar list tidak menyentuh motivasi */
+        }
+        .container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+        input, button {
+            padding: 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+        input {
+            width: 70%;
+            font-size: 16px;
+        }
+        button {
+            background: #ff6f61;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e64c3c;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            background: #fff2cc;
+            margin: 5px 0;
+            border-radius: 5px;
+            color: #333;
+            transition: box-shadow 0.3s ease;
+        }
+        li:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .completed span.task-name {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .deadline {
+            font-size: 12px;
+            color: #777;
+        }
+        .task-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 60%;
+        }
+        .checkbox {
+            transform: scale(1.5);
+            margin-left: auto;
+            margin-right: 10px;
+        }
+        .delete-btn {
+            background: #ff4d4d;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .delete-btn:hover {
+            background: #cc0000;
+        }
+        .task-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #222;
+            font-style: italic;
+        }
+        .motivation {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            animation: fadeIn 2s ease-in-out;
+            width: 100%;
+            text-align: center;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><strong>❗ REMINDER HIDUP ❗</strong></h1>
+        <input type="text" id="task" placeholder="Tulis disini bess...">
+        <input type="date" id="deadline">
+        <button onclick="addTask()">Tambah</button>
+        <ul id="taskList"></ul>
+    </div>
+    <div class="motivation">Selalu libatkan ALLAH disetiap urusanmu! 💪</div>
+
+    <script>
+        function addTask() {
+            let taskInput = document.getElementById("task");
+            let deadlineInput = document.getElementById("deadline");
+            let taskList = document.getElementById("taskList");
+            
+            if (taskInput.value.trim() !== "") {
+                let li = document.createElement("li");
+                
+                let taskContainer = document.createElement("div");
+                taskContainer.classList.add("task-container");
+                
+                let spanTask = document.createElement("span");
+                spanTask.textContent = taskInput.value;
+                spanTask.classList.add("task-name");
+                
+                let deadlineSpan = document.createElement("span");
+                deadlineSpan.textContent = "Deadline: " + deadlineInput.value;
+                deadlineSpan.classList.add("deadline");
+                
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.classList.add("checkbox");
+                checkbox.onchange = function() {
+                    spanTask.classList.toggle("completed", checkbox.checked);
+                };
+                
+                let deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Hapus";
+                deleteBtn.classList.add("delete-btn");
+                deleteBtn.onclick = function() {
+                    taskList.removeChild(li);
+                };
+                
+                li.appendChild(taskContainer);
+                taskContainer.appendChild(spanTask);
+                taskContainer.appendChild(deadlineSpan);
+                li.appendChild(checkbox);
+                li.appendChild(deleteBtn);
+                taskList.appendChild(li);
+                
+                taskInput.value = "";
+                deadlineInput.value = "";
+            }
+        }
+    </script>
+</body>
+</html>
